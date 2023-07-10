@@ -1,5 +1,5 @@
 # build stage
-FROM ghcr.io/linuxserver/baseimage-alpine:3.18 as build-stage
+FROM node:lts-alpine as build-stage
 
 WORKDIR /app
 
@@ -12,21 +12,21 @@ RUN yarn build
 # production stage
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18
 
-ARG PUID
-ARG PGID
-ARG PORT
-ARG INIT_ASSETS
-ARG SUBFOLDER
+ENV GID 1000
+ENV UID 1000
+ENV PORT 8080
+ENV SUBFOLDER "/_"
+ENV INIT_ASSETS 1
 
-RUN addgroup -S lighttpd -g ${PGID} && adduser -D -S -u ${PUID} lighttpd lighttpd && \
+RUN addgroup -S lighttpd -g ${GID} && adduser -D -S -u ${UID} lighttpd lighttpd && \
     apk add -U --no-cache lighttpd
 
 WORKDIR /www
 
 COPY lighttpd.conf /lighttpd.conf
 COPY entrypoint.sh /entrypoint.sh
-COPY --from=build-stage --chown=${PUID}:${PGID} /app/dist /www/
-COPY --from=build-stage --chown=${PUID}:${PGID} /app/dist/assets /www/default-assets
+COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
+COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
 
 USER ${UID}:${GID}
 
