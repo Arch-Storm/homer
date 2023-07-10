@@ -12,8 +12,8 @@ RUN yarn build
 # production stage
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18
 
-ENV GID 1000
-ENV UID 1000
+ENV GID 1003
+ENV UID 1003
 ENV PORT 8080
 ENV SUBFOLDER "/_"
 ENV INIT_ASSETS 1
