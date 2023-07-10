@@ -30,6 +30,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
 
+RUN chown ${UID}:${GID} /entrypoint.sh && chmod +x /entrypoint.sh
 RUN chown -R ${UID}:${GID} assets
 
 USER ${UID}:${GID}
