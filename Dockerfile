@@ -12,8 +12,10 @@ RUN yarn build
 # production stage
 FROM ghcr.io/linuxserver/baseimage-alpine:3.18
 
-ENV GID 1003
-ENV UID 1003
+ARG PGID=1000
+ARG PUID=1000
+ENV GID $PGID
+ENV UID $PUID
 ENV PORT 8080
 ENV SUBFOLDER "/_"
 ENV INIT_ASSETS 1
@@ -27,6 +29,8 @@ COPY lighttpd.conf /lighttpd.conf
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
+
+RUN chown -R ${UID}:${GID} assets
 
 USER ${UID}:${GID}
 
