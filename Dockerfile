@@ -18,7 +18,7 @@ ENV PORT 8080
 ENV SUBFOLDER "/_"
 ENV INIT_ASSETS 1
 
-RUN addgroup -S lighttpd -g ${GID} && adduser -D -S -u ${UID} -G lighttpd lighttpd && \
+RUN addgroup -S lighttpd -g ${GID} && adduser -D -S -u ${UID} lighttpd lighttpd && \
     apk add -U --no-cache lighttpd
 
 WORKDIR /www
