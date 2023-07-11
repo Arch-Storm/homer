@@ -28,7 +28,7 @@ COPY --chmod=775 entrypoint.sh /entrypoint
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
 
-RUN ls -la / && getent passwd && getent group
+RUN chown -R ${UID}:${GID} /www/assets
 
 USER ${UID}:${GID}
 
