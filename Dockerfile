@@ -24,7 +24,7 @@ RUN addgroup -g ${GID} -S lighttpd && adduser -D -u ${UID} -S lighttpd -G lightt
 WORKDIR /www
 
 COPY lighttpd.conf /lighttpd.conf
-COPY entrypoint.sh /entrypoint.sh
+COPY --chmod=555 entrypoint.sh /entrypoint.sh
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
 
