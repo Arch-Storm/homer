@@ -24,7 +24,7 @@ RUN addgroup -g ${GID} -S lighttpd && adduser -D -u ${UID} -S lighttpd -G lightt
 WORKDIR /www
 
 COPY lighttpd.conf /lighttpd.conf
-COPY --chmod=555 entrypoint.sh /entrypoint.sh
+COPY --chmod=775 entrypoint.sh /entrypoint
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist /www/
 COPY --from=build-stage --chown=${UID}:${GID} /app/dist/assets /www/default-assets
 
@@ -37,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 
 EXPOSE ${PORT}
 
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint"]
