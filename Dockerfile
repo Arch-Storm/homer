@@ -35,4 +35,6 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
 
 EXPOSE ${PORT}
 
+RUN ls -la /
+
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
